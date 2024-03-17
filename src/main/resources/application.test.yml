@@ -1,0 +1,24 @@
+
+spring:
+  datasource:
+    url: 
+    username: 
+    password: 
+    driver-class-name: 
+  jpa:
+    hibernate:
+      ddl-auto: 
+    show-sql: 
+    properties:
+      hibernate:
+        format_sql: 
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+application:
+  security:
+    jwt:
+      secret-key:
+      expiration: # a day
+      refresh-token:
+        expiration: # 7 days
