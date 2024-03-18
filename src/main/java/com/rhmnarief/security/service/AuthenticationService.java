@@ -2,6 +2,7 @@ package com.rhmnarief.security.service;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpHeaders;
@@ -33,7 +34,11 @@ public class AuthenticationService {
         private final JwtService jwtService;
         private final AuthenticationManager authenticationManager;
 
-        public AuthenticationResponse register(RegisterRequest request) {
+        public AuthenticationResponse register(RegisterRequest request) throws UsernameNotFoundException {
+                var existUser = repository.findByEmail(request.getEmail());
+                if (!existUser.isEmpty()) {
+                        throw new UsernameNotFoundException(String.format("Email %s is already taken!", request.getEmail()));
+                }
                 var user = User.builder()
                                 .firstname(request.getFirstname())
                                 .lastname(request.getLastname())
